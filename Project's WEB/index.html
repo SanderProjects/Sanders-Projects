@@ -111,8 +111,11 @@
         postsContainer.innerHTML = 'Artikelen worden geladen...';
 
         try {
+            // FIX: Codeer de mapnaam voor de GitHub API om speciale tekens te verwerken
+            const encodedPostsFolder = encodeURIComponent(POSTS_FOLDER); // <-- DEZE REGEL IS NIEUW
+            
             // Stap 1: Haal de lijst met bestanden uit de _posts map (via GitHub API)
-            const apiUrl = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${POSTS_FOLDER}`;
+            const apiUrl = `https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${encodedPostsFolder}`; // <-- HIER WORDT DE GECODEERDE MAP GEBRUIKT
             const fileListResponse = await fetch(apiUrl);
             
             if (!fileListResponse.ok) {
