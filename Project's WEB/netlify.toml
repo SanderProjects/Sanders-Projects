@@ -1,0 +1,7 @@
+[build]
+  # De Base directory waar de bestanden staan
+  base = "Project's WEB"
+  # Het build command is leeg omdat het een pure HTML site is
+  command = ""
+  # De publicatiemap, relatief ten opzichte van de 'base' map
+  publish = "./"
