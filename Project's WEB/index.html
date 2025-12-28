@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijn Projecten Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="home-screen">
+        <header>
+            <h1>Mijn Projecten</h1>
+            <p>Welkom in mijn digitale archief. Kies een project om te beginnen.</p>
+        </header>
+
+        <div class="project-grid">
+            <div class="card" onclick="openProject('radio100')">
+                <span>🎵</span>
+                <h2>Radio 100</h2>
+                <p>Mijn jaarlijkse top 100 van de beste nummers.</p>
+            </div>
+            <div class="card" onclick="openProject('journalist')">
+                <span>📰</span>
+                <h2>De Journalist</h2>
+                <p>Artikelen, opinies en stukken die ik heb geschreven.</p>
+            </div>
+            <div class="card" onclick="openProject('overig')">
+                <span>🚀</span>
+                <h2>Meer Projecten</h2>
+                <p>Experimenten, code en andere creatieve uitspattingen.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="radio100" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Terug naar overzicht</button>
+        <h1>Radio 100: De Lijst</h1>
+        <p>Hier vind je mijn persoonlijke selectie van dit jaar.</p>
+        <div id="radio100-content">
+            <ul class="song-list" style="padding:0;">
+                <li><strong>1.</strong> Titel van Liedje - Artiest</li>
+                <li><strong>2.</strong> Titel van Liedje - Artiest</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="journalist" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Terug naar overzicht</button>
+        <h1>Artikel Archief</h1>
+        <p>Recente publicaties. Deze worden beheerd via het CMS!</p>
+        
+        <div id="posts-container">
+            </div>
+        
+        <div style="margin-top:40px; border-top: 1px solid #333; padding-top:20px;">
+            <p>Vind je mijn werk tof? Steun mij met een koffie!</p>
+            <button class="donate-btn" onclick="alert('Hier komt de Stripe/PayPal link!')">Steun dit project (€)</button>
+        </div>
+    </div>
+
+    <div id="overig" class="page-section">
+        <button class="back-btn" onclick="goHome()">← Terug naar overzicht</button>
+        <h1>Andere Projecten</h1>
+        <p>Work in progress...</p>
+    </div>
+
+</div>
+
+<script>
+    function openProject(projectId) {
+        // ... (Navigatie code is hetzelfde)
+        document.getElementById('home-screen').style.display = 'none';
+        window.scrollTo(0, 0);
+        const project = document.getElementById(projectId);
+        project.style.display = 'block';
+        setTimeout(() => { project.classList.add('active'); }, 10);
+        
+        if (projectId === 'journalist') {
+            loadCMSPosts();
+        }
+    }
+
+    function goHome() {
+        // ... (Navigatie code is hetzelfde)
+        const pages = document.querySelectorAll('.page-section');
+        pages.forEach(page => {
+            page.style.display = 'none';
+            page.classList.remove('active');
+        });
+        document.getElementById('home-screen').style.display = 'block';
+    }
+
+    // Functie om de CMS-posts in te laden
+    async function loadCMSPosts() {
+        // We simuleren dat de posts in een JSON-bestand staan (wat het CMS genereert)
+        const postsContainer = document.getElementById('posts-container');
+        postsContainer.innerHTML = 'Artikelen worden geladen...'; 
+        
+        try {
+            // Dit bestand bestaat nog niet, maar zal er zijn na je eerste CMS post
+            const response = await fetch('/posts.json'); 
+            const posts = await response.json();
+
+            postsContainer.innerHTML = ''; // Leegmaken
+            posts.forEach(post => {
+                const postHTML = `
+                    <div class="article-preview">
+                        <h3>${post.title}</h3>
+                        <p>${post.description}</p>
+                        <a href="#" style="color: var(--accent);">Lees meer →</a>
+                    </div>
+                `;
+                postsContainer.innerHTML += postHTML;
+            });
+
+        } catch (error) {
+            postsContainer.innerHTML = '<p>Nog geen artikelen gevonden. Log in bij /admin om de eerste post te maken!</p>';
+        }
+    }
+
+    // Netlify Identity Widget voor Login
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+</script>
+</body>
+</html>
