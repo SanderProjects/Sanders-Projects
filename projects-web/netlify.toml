@@ -1,0 +1,4 @@
+[build]
+  base = "Project's WEB"
+  command = "" 
+  publish = "./"
