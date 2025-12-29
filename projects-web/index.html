@@ -78,8 +78,8 @@
     // Configuratie voor het ophalen van posts (PAS DIT AAN!)
     const GITHUB_REPO_OWNER = 'SanderProjects'; // JOUW GEBRUIKERSNAAM
     const GITHUB_REPO_NAME = 'Sanders-Projects'; // JOUW REPO NAAM
-    const POSTS_FOLDER = 'Project\'s WEB/_posts/'; // De map waar Netlify CMS de artikelen opslaat
-
+    // Omdat alles nu in de hoofdmap staat, verwijzen we direct naar de _posts map
+const POSTS_FOLDER = '_posts/';
     function openProject(projectId) {
         document.getElementById('home-screen').style.display = 'none';
         window.scrollTo(0, 0);
@@ -201,3 +201,4 @@
 </script>
 </body>
 </html>
+
