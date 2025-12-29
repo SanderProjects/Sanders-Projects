@@ -1,5 +1,0 @@
-[build]
-  base = "projects-web"
-  command = "" 
-  publish = "./"
-
